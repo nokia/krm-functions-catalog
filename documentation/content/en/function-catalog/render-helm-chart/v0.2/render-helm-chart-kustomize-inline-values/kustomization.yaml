@@ -1,0 +1,28 @@
+generators:
+  - |-
+    apiVersion: fn.kpt.dev/v1alpha1
+    kind: RenderHelmChart
+    metadata:
+      name: demo
+      annotations:
+        config.kubernetes.io/function: |
+          container:
+            network: true
+            image: gcr.io/kpt-fn/render-helm-chart:unstable
+    helmCharts:
+    - chartArgs:
+        name: ocp-pipeline
+        version: 0.1.16
+        repo: https://bcgov.github.io/helm-charts
+      templateOptions:
+        releaseName: moria
+        namespace: mynamespace
+        values:
+          valuesInline:
+            releaseNamespace: ""
+            rbac:
+              create: true
+              rules:
+                - apiGroups: [""]
+                  verbs: ["*"]
+                  resources: ["*"]

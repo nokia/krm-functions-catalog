@@ -1,0 +1,105 @@
+{{ $relativePath := .Page.File.Dir }}
+{{ $currentDir := printf "%s/%s" "/content/en/" $relativePath }}
+
+{{ $files := readDir $currentDir }}
+
+<table class="table table-striped">
+<thead>
+  <tr>
+    <th>Function</th>
+    <th>Description</th>
+    <th>Tags</th>
+    <th>Versions</th>
+  </tr>
+</thead>
+<tbody>
+
+{{ range $files }}
+  {{ if .IsDir }}
+
+    {{ $subfiles := readDir (printf "%s/%s" $currentDir .Name) }}
+
+    <!-- Find version directories and get the highest version -->
+    {{ $versions := slice }}
+    {{ range $subfiles }}
+      {{ if .IsDir }}
+        {{ if (findRE "^v[0-9]+\\.[0-9]+$" .Name) }}
+          {{ $versions = $versions | append .Name }}
+        {{ end }}
+      {{ end }}
+    {{ end }}
+
+    {{ if $versions }}
+      <!-- Find the highest version by comparing version numbers -->
+      {{ $highestVersion := "" }}
+      {{ $highestMajor := 0 }}
+      {{ $highestMinor := 0 }}
+      
+      {{ range $versions }}
+        {{ $versionNumber := . | replaceRE "^v" "" }}
+        {{ $parts := split $versionNumber "." }}
+        {{ $major := index $parts 0 | int }}
+        {{ $minor := index $parts 1 | int }}
+        
+        {{ if or (gt $major $highestMajor) (and (eq $major $highestMajor) (gt $minor $highestMinor)) }}
+          {{ $highestVersion = . }}
+          {{ $highestMajor = $major }}
+          {{ $highestMinor = $minor }}
+        {{ end }}
+      {{ end }}
+      
+      <!-- Sort versions for display (highest first) -->
+      {{ $sortedVersions := slice }}
+      {{ range $versions }}
+        {{ $versionNumber := . | replaceRE "^v" "" }}
+        {{ $parts := split $versionNumber "." }}
+        {{ $major := index $parts 0 | int }}
+        {{ $minor := index $parts 1 | int }}
+        {{ $sortKey := printf "%03d.%03d" $major $minor }}
+        {{ $sortedVersions = $sortedVersions | append (dict "name" . "sortKey" $sortKey) }}
+      {{ end }}
+      {{ $sortedVersions = sort $sortedVersions "sortKey" "desc" }}
+      
+      {{ $versionDir := printf "%s/%s/%s" $currentDir .Name $highestVersion }}
+      {{ $indexFile := printf "%s/_index.md" $versionDir }}
+      
+      {{ $functionName := .Name }}
+      
+      <!-- Check if _index.md exists and read its front matter -->
+      {{ if (fileExists $indexFile) }}
+        {{ $indexPath := printf "function-catalog/%s/%s/_index.md" $functionName $highestVersion }}
+        {{ with $.Site.GetPage $indexPath }}
+          <tr>
+            <td><a href="{{ printf "%s/%s/" $functionName $highestVersion }}">{{ .Title }}</a></td>
+            <td>{{ .Params.description | markdownify }}</td>
+            <td>
+              {{ if .Params.tags }}
+                <span >{{ .Params.tags }}</span>
+              {{ end }}
+            </td>
+            <td>
+              {{ range $i, $version := $sortedVersions }}
+                {{ if $i }}, {{ end }}
+                <a href="{{ printf "%s/%s/" $functionName $version.name }}">{{ $version.name }}</a>
+              {{ end }}
+            </td>
+          </tr>
+        {{ end }}
+      {{ end }}
+    {{ else }}
+      <!-- Fallback for functions without version directories -->
+      {{ $title := .Name | replaceRE "\\.[^.]+$" "" }}
+      <tr>
+        <td><a href="{{ printf "%s" .Name }}">{{ $title }}</a></td>
+        <td>No description available</td>
+        <td></td>
+        <td>-</td>
+      </tr>
+    {{ end }}
+
+  {{ end }}
+
+{{ end }}
+
+</tbody>
+</table>
