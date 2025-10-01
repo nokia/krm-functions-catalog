@@ -238,7 +238,7 @@
                     `<div>` +
                     `<p>Image URL: ` +
                     `<code class="lang-shell language-shell">` +
-                    `gcr.io/kpt-fn${isContribFn ? "-contrib" : ""}/${functionName}:${patchSemver}` +
+                    `ghcr.io/kptdev/krm-functions-catalog${isContribFn ? "-contrib" : ""}/${functionName}:${patchSemver}` +
                     `</code>` +
                     `</p>` +
                     `</div>`
@@ -274,8 +274,8 @@
                 document.getElementById("edit-page").href =
                   ghElement.href
                     .replace(
-                      "kpt-functions-catalog/tree",
-                      "kpt-functions-catalog/edit"
+                      "krm-functions-catalog/tree",
+                      "krm-functions-catalog/edit"
                     )
                     .replace(`${functionName}/${versionName}`, "master") +
                   "/README.md";
