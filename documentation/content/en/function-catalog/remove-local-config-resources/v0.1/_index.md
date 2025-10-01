@@ -12,6 +12,10 @@ menu:
 
 # remove-local-config-resources
 
+{{< listversions >}}
+
+{{< listexamples >}}
+
 ## Overview
 
 <!--mdtogo:Short-->

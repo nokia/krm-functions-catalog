@@ -12,6 +12,10 @@ menu:
 
 # set-annotations
 
+{{< listversions >}}
+
+{{< listexamples >}}
+
 ### Overview
 
 <!--mdtogo:Short-->

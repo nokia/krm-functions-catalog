@@ -12,6 +12,10 @@ menu:
 
 # enable-gcp-services
 
+{{< listversions >}}
+
+{{< listexamples >}}
+
 ## Overview
 
 <!--mdtogo:Short-->
@@ -129,4 +133,3 @@ spec:
     external: proj1
 ```
 
-<!--mdtogo-->

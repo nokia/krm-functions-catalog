@@ -13,6 +13,12 @@ menu:
 
 # apply-replacements
 
+{{< listversions >}}
+
+{{< listexamples >}}
+
+{{< listversions >}}
+
 ### Overview
 
 <!--mdtogo:Short-->

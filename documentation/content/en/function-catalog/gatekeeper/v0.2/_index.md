@@ -12,6 +12,10 @@ menu:
 
 # gatekeeper
 
+{{< listversions >}}
+
+{{< listexamples >}}
+
 ## Overview
 
 <!--mdtogo:Short-->

@@ -12,6 +12,10 @@ menu:
 
 # set-namespace
 
+{{< listversions >}}
+
+{{< listexamples >}}
+
 ### Overview
 
 <!--mdtogo:Short-->
@@ -118,4 +122,3 @@ additionalNamespaceFields:
 
 [namespace]: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/
 
-[commonnamespace]: https://github.com/kubernetes-sigs/kustomize/blob/master/api/konfig/builtinpluginconsts/namespace.go#L7

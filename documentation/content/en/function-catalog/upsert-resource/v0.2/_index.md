@@ -12,6 +12,10 @@ menu:
 
 # upsert-resource
 
+{{< listversions >}}
+
+{{< listexamples >}}
+
 ### Overview
 
 <!--mdtogo:Short-->

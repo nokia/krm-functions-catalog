@@ -1,2 +1,0 @@
-testType: eval
-image: gcr.io/kpt-fn/export-terraform:unstable

@@ -12,6 +12,10 @@ menu:
 
 # generate-folders
 
+{{< listversions >}}
+
+{{< listexamples >}}
+
 ## Overview
 
 This function transforms the `ResourceHierarchy` custom resource into `Folder`

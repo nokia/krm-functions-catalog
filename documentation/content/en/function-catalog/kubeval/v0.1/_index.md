@@ -12,6 +12,10 @@ menu:
 
 # kubeval
 
+{{< listversions >}}
+
+{{< listexamples >}}
+
 ### Overview
 
 The `kubeval` function wraps the [`kubeval`] binary to validate KRM resources

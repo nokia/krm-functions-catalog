@@ -13,6 +13,10 @@ menu:
 
 # apply-setters
 
+{{< listversions >}}
+
+{{< listexamples >}}
+
 ### Overview
 
 <!--mdtogo:Short-->

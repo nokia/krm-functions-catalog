@@ -12,6 +12,10 @@ menu:
 
 # render-helm-chart
 
+{{< listversions >}}
+
+{{< listexamples >}}
+
 ## Overview
 
 <!--mdtogo:Short-->

@@ -12,6 +12,10 @@ menu:
 
 # set-project-id
 
+{{< listversions >}}
+
+{{< listexamples >}}
+
 ## Overview
 
 <!--mdtogo:Short-->

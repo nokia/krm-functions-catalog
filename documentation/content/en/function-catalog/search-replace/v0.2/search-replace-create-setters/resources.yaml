@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: nginx-urls
-data:
-  FQDN: nginx.com
-  MY_BAR_URL: https://nginx.com/bar
-  MY_BAZ_URL: https://nginx.com/baz
-  MY_FOO_URL: https://nginx.com/foo

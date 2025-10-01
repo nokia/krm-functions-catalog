@@ -12,6 +12,10 @@ menu:
 
 # export-terraform-resources
 
+{{< listversions >}}
+
+{{< listexamples >}}
+
 ## Overview
 
 <!--mdtogo:Short-->

@@ -9,7 +9,6 @@
     <th>Function</th>
     <th>Description</th>
     <th>Tags</th>
-    <th>Versions</th>
   </tr>
 </thead>
 <tbody>
@@ -48,18 +47,6 @@
         {{ end }}
       {{ end }}
       
-      <!-- Sort versions for display (highest first) -->
-      {{ $sortedVersions := slice }}
-      {{ range $versions }}
-        {{ $versionNumber := . | replaceRE "^v" "" }}
-        {{ $parts := split $versionNumber "." }}
-        {{ $major := index $parts 0 | int }}
-        {{ $minor := index $parts 1 | int }}
-        {{ $sortKey := printf "%03d.%03d" $major $minor }}
-        {{ $sortedVersions = $sortedVersions | append (dict "name" . "sortKey" $sortKey) }}
-      {{ end }}
-      {{ $sortedVersions = sort $sortedVersions "sortKey" "desc" }}
-      
       {{ $versionDir := printf "%s/%s/%s" $currentDir .Name $highestVersion }}
       {{ $indexFile := printf "%s/_index.md" $versionDir }}
       
@@ -75,12 +62,6 @@
             <td>
               {{ if .Params.tags }}
                 <span >{{ .Params.tags }}</span>
-              {{ end }}
-            </td>
-            <td>
-              {{ range $i, $version := $sortedVersions }}
-                {{ if $i }}, {{ end }}
-                <a href="{{ printf "%s/%s/" $functionName $version.name }}">{{ $version.name }}</a>
               {{ end }}
             </td>
           </tr>

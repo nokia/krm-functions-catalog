@@ -12,6 +12,10 @@ menu:
 
 # set-image
 
+{{< listversions >}}
+
+{{< listexamples >}}
+
 ## Overview
 
 <!--mdtogo:Short-->

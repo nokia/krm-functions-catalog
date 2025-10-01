@@ -12,6 +12,10 @@ menu:
 
 # search-replace
 
+{{< listversions >}}
+
+{{< listexamples >}}
+
 ### Overview
 
 <!--mdtogo:Short-->

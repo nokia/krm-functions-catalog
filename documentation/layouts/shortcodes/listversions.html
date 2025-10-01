@@ -1,0 +1,84 @@
+{{/* Get the current page's directory and construct path to parent directory */}}
+{{ $relativePath := .Page.File.Dir }}
+{{ $parentDir := printf "%s/%s/../" "/content/en/" $relativePath }}
+
+{{/* Read all files/directories in the parent directory */}}
+{{ $files := readDir $parentDir }}
+
+{{/* Filter directories that match version pattern v[0-9] */}}
+{{ $versions := slice }}
+{{ range $files }}
+  {{ if .IsDir }}
+    {{ if (findRE "^v[0-9]+" .Name) }}
+      {{ $versions = $versions | append .Name }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{/* Sort versions - Hugo's sort function works well with semantic versioning */}}
+{{ $sortedVersions := sort $versions }}
+
+{{/* Get current page info for highlighting current version */}}
+{{ $currentPath := .Page.RelPermalink }}
+{{ $currentVersion := "" }}
+{{ range $sortedVersions }}
+  {{ if (in $currentPath .) }}
+    {{ $currentVersion = . }}
+  {{ end }}
+{{ end }}
+
+{{/* Generate dropdown menu if we have versions */}}
+{{ if gt (len $sortedVersions) 0 }}
+<div class="version-dropdown">
+  <label for="version-select">Version:</label>
+  <select id="version-select" onchange="navigateToVersion(this.value)">
+    {{ range $sortedVersions }}
+      {{ $versionPath := printf "%s../%s/" $relativePath . }}
+      {{ $isSelected := eq . $currentVersion }}
+      <option value="{{ $versionPath | relURL }}" {{ if $isSelected }}selected{{ end }}>
+        {{ . }}
+      </option>
+    {{ end }}
+  </select>
+</div>
+
+<script>
+function navigateToVersion(path) {
+  if (path) {
+    window.location.href = path;
+  }
+}
+</script>
+
+<style>
+.version-dropdown {
+  margin: 1rem 0;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f8f9fa;
+}
+
+.version-dropdown label {
+  font-weight: bold;
+  margin-right: 0.5rem;
+}
+
+.version-dropdown select {
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  background-color: white;
+  min-width: 120px;
+}
+
+.version-dropdown select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+</style>
+{{ else }}
+<!-- No version directories found -->
+<p><em>No versions found.</em></p>
+{{ end }}

@@ -12,6 +12,12 @@ menu:
 
 # ensure-name-substring
 
+{{< listversions >}}
+
+{{< listexamples >}}
+
+{{< listversions >}}
+
 ## Overview
 
 <!--mdtogo:Short-->

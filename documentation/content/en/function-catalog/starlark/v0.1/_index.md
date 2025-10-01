@@ -12,6 +12,10 @@ menu:
 
 # starlark
 
+{{< listversions >}}
+
+{{< listexamples >}}
+
 ### Overview
 
 <!--mdtogo:Short-->

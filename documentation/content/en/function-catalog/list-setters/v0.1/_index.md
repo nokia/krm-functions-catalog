@@ -12,6 +12,10 @@ menu:
 
 # list-setters
 
+{{< listversions >}}
+
+{{< listexamples >}}
+
 ## Overview
 
 <!--mdtogo:Short-->
@@ -89,4 +93,3 @@ Output looks like the following:
 
 [setter]: https://catalog.kpt.dev/apply-setters/v0.1/?id=definitions
 [create-setters]: https://catalog.kpt.dev/create-setters/v0.1/
-[apply-setters]: https://catalog.kpt.dev/apply-setters/v0.1/

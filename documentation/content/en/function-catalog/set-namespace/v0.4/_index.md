@@ -12,6 +12,10 @@ menu:
 
 # set-namespace
 
+{{< listversions >}}
+
+{{< listexamples >}}
+
 ## Overview
 
 <!--mdtogo:Short-->

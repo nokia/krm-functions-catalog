@@ -12,6 +12,10 @@ menu:
 
 # set-labels
 
+{{< listversions >}}
+
+{{< listexamples >}}
+
 ## Overview
 
 <!--mdtogo:Short-->
