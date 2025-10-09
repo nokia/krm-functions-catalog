@@ -1,0 +1,119 @@
+---
+title: "set-labels"
+linkTitle: "set-labels"
+tags: "mutator"
+weight: 4
+description: |
+   The `set-labels` function adds a list of labels to all resources. It's a common
+menu:
+  main:
+    parent: "Function Catalog"
+---
+
+# set-labels
+
+{{< listversions >}}
+
+{{< listexamples >}}
+
+### Overview
+
+<!--mdtogo:Short-->
+
+The `set-labels` function adds a list of labels to all resources. It's a common
+practice to add a set of labels for all the resources in a package. Kubernetes
+has some [recommended labels].
+
+For example, labels can be used in the following scenarios:
+
+- Identify the KRM resources by querying their labels.
+- Set labels for all resources within a package (e.g. environment=staging).
+
+<!--mdtogo-->
+
+You can learn more about labels [here][labels].
+
+### Usage
+
+This function can be used with any KRM function orchestrators (e.g. kpt).
+
+For each label, the function adds it if it doesn't exist. Otherwise, it replaces
+the existing label with the same name.
+
+In addition to updating the `metadata.labels` field for each resource, the
+function will also update the [selectors][commonlabels] that target the labels
+by default. e.g. the selectors for `Service` will be updated to include the
+desired labels.
+
+This function can be used both declaratively and imperatively.
+
+#### FunctionConfig
+
+<!--mdtogo:Long-->
+
+There are 2 kinds of `functionConfig` supported by this function:
+
+- `ConfigMap`
+- A custom resource of kind `SetLabels`
+
+To use a `ConfigMap` as the `functionConfig`, the desired labels must be
+specified in the `data` field.
+
+To add 2 labels `color: orange` and `fruit: apple` to all resources, we use the
+following `functionConfig`:
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: my-config
+data:
+  color: orange
+  fruit: apple
+```
+
+To use a `SetLabels` custom resource as the `functionConfig`, the desired labels
+must be specified in the `labels` field. Sometimes you have resources (
+especially custom resources) that have labels or selectors fields in fields
+other than the [defaults][commonlabels], you can specify such label fields using
+`additionalLabelFields`. It will be used jointly with the
+[defaults][commonlabels].
+
+`additionalLabelFields` has following fields:
+
+- `group`: Select the resources by API version group. Will select all groups if
+  omitted.
+- `version`: Select the resources by API version. Will select all versions if
+  omitted.
+- `kind`: Select the resources by resource kind. Will select all kinds if
+  omitted.
+- `path`: Specify the path to the field that the value needs to be updated. This
+  field is required.
+- `create`: If it's set to true, the field specified will be created if it
+  doesn't exist. Otherwise, the function will only update the existing field.
+
+To add 2 labels `color: orange` and `fruit: apple` to all built-in resources and
+the path `data.selector` in `MyOwnKind` resource, we use the
+following `functionConfig`:
+
+```yaml
+apiVersion: fn.kpt.dev/v1alpha1
+kind: SetLabels
+metadata:
+  name: my-config
+labels:
+  color: orange
+  fruit: apple
+additionalLabelFields:
+  - path: data/selector
+    kind: MyOwnKind
+    create: true
+```
+
+<!--mdtogo-->
+
+[labels]: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+
+[recommended labels]: https://kubernetes.io/docs/concepts/overview/working-with-objects/common-labels/
+
+[commonlabels]: https://github.com/kubernetes-sigs/kustomize/blob/master/api/konfig/builtinpluginconsts/commonlabels.go#L6
