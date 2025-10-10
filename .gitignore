@@ -9,6 +9,7 @@ node_modules
 bin/
 __pycache__
 .docker
+documentation/resources
 
 # We use sed -i.bak when doing in-line replace, because it works better cross-platform
 *.bak

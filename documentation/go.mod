@@ -1,4 +1,4 @@
-module github.com/kptdev/docs
+module github.com/krm-functions-catalog/docs
 
 go 1.24.3
 
