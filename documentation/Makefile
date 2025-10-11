@@ -13,14 +13,12 @@ serve: copy-examples
 		--gc
 
 production-build: copy-examples
-	git submodule update --init --recursive
 	hugo version
 	hugo \
 		--minify
 	npx -y pagefind --site public
 
 preview-build: copy-examples
-	git submodule update --init --recursive
 	hugo \
 		--baseURL $(DEPLOY_PRIME_URL) \
 		--buildDrafts \

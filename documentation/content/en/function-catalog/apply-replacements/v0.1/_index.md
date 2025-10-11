@@ -17,8 +17,6 @@ menu:
 
 {{< listexamples >}}
 
-{{< listversions >}}
-
 ### Overview
 
 <!--mdtogo:Short-->
