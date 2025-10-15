@@ -4,7 +4,7 @@ metadata:
   name: fnresults
 exitCode: 1
 items:
-  - image: ghcr.io/kptdev/krm-functions-catalog/krm-fn-contrib/kubeconform:latest
+  - image: ghcr.io/kptdev/krm-functions-catalog/kubeconform:latest
     stderr: 'failed to evaluate function: error: function failure'
     exitCode: 1
     results:
@@ -17,4 +17,14 @@ items:
         field:
           path: spec.replicas
         file:
-          path: replicationcontroller.yaml
+          path: app.yaml
+      - message: additional properties 'templates' not allowed
+        severity: error
+        resourceRef:
+          apiVersion: v1
+          kind: ReplicationController
+          name: bob
+        field:
+          path: spec
+        file:
+          path: app.yaml
