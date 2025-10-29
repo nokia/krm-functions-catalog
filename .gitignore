@@ -21,6 +21,11 @@ documentation/content/en/examples
 resources/
 public/
 
+# Hugo
+.hugo*
+resources/
+public/
+
 # We use sed -i.bak when doing in-line replace, because it works better cross-platform
 *.bak
 
