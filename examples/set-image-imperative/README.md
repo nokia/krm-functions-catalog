@@ -31,4 +31,4 @@ The labels provided in key-value pairs after `--` will be converted to a
 
 Check the image `nginx` has been replaced with `bitnami/nginx:1.21.4` for all resources.
 
-[`set-image`]: {{< relref "function-catalog/set-image/v0.1/" >}}
+[`set-image`]: {{< relref "set-image/v0.1/" >}}

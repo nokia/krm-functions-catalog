@@ -8,7 +8,6 @@ menu:
   main:
     parent: "Function Catalog"
 ---
-
 {{< listversions >}}
 
 {{< listexamples >}}
@@ -113,13 +112,13 @@ data:
 Invoke the function:
 
 ```shell
-$ kpt fn eval --image ghcr.io/kptdev/krm-functions-catalog/apply-setters:v0.1 --fn-config ./apply-setters-fn-config
+$ kpt fn eval --image ghcr.io/kptdev/krm-functions-catalog/apply-setters:v0.2 --fn-config ./apply-setters-fn-config
 ```
 
 Alternatively, setter values can be passed as key-value pairs in the CLI
 
 ```shell
-$ kpt fn eval --image ghcr.io/kptdev/krm-functions-catalog/apply-setters:v0.1 -- image=ubuntu replicas=3
+$ kpt fn eval --image ghcr.io/kptdev/krm-functions-catalog/apply-setters:v0.2 -- image=ubuntu replicas=3
 ```
 
 Modified resource looks like the following:
@@ -182,7 +181,7 @@ data:
 Invoke the function using the input config:
 
 ```shell
-$ kpt fn eval --image ghcr.io/kptdev/krm-functions-catalog/apply-setters:v0.1 --fn-config ./apply-setters-fn-config
+$ kpt fn eval --image ghcr.io/kptdev/krm-functions-catalog/apply-setters:v0.2 --fn-config ./apply-setters-fn-config
 ```
 
 Modified resource looks like the following:
@@ -201,4 +200,4 @@ environments: # kpt-set: ${env}
 
 #### Note:
 
-Refer to the [`create-setters`]({{< relref "function-catalog/create-setters/v0.1/" >}}) function documentation for information about creating setters.
+Refer to the [`create-setters`]({{< relref "create-setters/v0.1/" >}}) function documentation for information about creating setters.

@@ -58,4 +58,4 @@ Check all resources have 2 annotations: `color: orange` and `fruit: apple`. And
 the resource of kind `MyResource` also has these 2 annotations in
 `spec.selector.annotations`.
 
-[`set-annotations`]: {{< relref "function-catalog/set-annotations/v0.1/" >}}
+[`set-annotations`]: {{< relref "set-annotations/v0.1/" >}}

@@ -203,4 +203,4 @@ Explanation for the changes:
 Here, the comment is added to the `environments` field as it is an array node, and the intent is to paremeterize entire array.
 <!--mdtogo-->
 
-[setter]: {{< relref "function-catalog/apply-setters/v0.2/#definitions" >}}
+[setter]: {{< relref "apply-setters/v0.2/#definitions" >}}

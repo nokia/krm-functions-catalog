@@ -59,5 +59,5 @@ the package.
 annotation updated, since it references a namespaced resource which was not
 included in the package.
 
-[`set-namespace`]: {{< relref "function-catalog/set-namespace/v0.4/" >}}
+[`set-namespace`]: {{< relref "set-namespace/v0.4/" >}}
 [`depends-on`]: https://kpt.dev/reference/annotations/depends-on/

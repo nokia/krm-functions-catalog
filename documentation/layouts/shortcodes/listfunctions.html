@@ -15,6 +15,7 @@
 
 {{ range $files }}
   {{ if .IsDir }}
+    {{ if ne .Name "examples" }}
 
     {{ $subfiles := readDir (printf "%s/%s" $currentDir .Name) }}
 
@@ -54,7 +55,7 @@
       
       <!-- Check if _index.md exists and read its front matter -->
       {{ if (fileExists $indexFile) }}
-        {{ $indexPath := printf "function-catalog/%s/%s/_index.md" $functionName $highestVersion }}
+        {{ $indexPath := printf "%s/%s/_index.md" $functionName $highestVersion }}
         {{ with $.Site.GetPage $indexPath }}
           <tr>
             <td>
@@ -83,6 +84,7 @@
       </tr>
     {{ end }}
 
+    {{ end }}
   {{ end }}
 
 {{ end }}

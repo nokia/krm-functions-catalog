@@ -71,4 +71,4 @@ $ kpt fn render starlark-inject-sidecar
 
 The logging agent container should have been injected. 
 
-[`starlark`]: {{< relref "function-catalog/starlark/v0.5/" >}}
+[`starlark`]: {{< relref "starlark/v0.5/" >}}

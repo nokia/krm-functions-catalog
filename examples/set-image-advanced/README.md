@@ -61,4 +61,4 @@ standard `.spec.containers[].image` field of the resource of kind `Pod`. And the
 image `nginx` has been set to `bitnami/nginx:1.21.4` in the custom
 `.spec.manifest.images[].image` location of the resource of kind `MyKind`
 
-[`set-image`]: {{< relref "function-catalog/set-image/v0.1/" >}}
+[`set-image`]: {{< relref "set-image/v0.1/" >}}

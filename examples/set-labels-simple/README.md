@@ -45,4 +45,4 @@ $ kpt fn render set-labels-simple
 
 Check all resources have 2 labels `color: orange` and `fruit: apple`.
 
-[`set-labels`]: {{< relref "function-catalog/set-labels/v0.2/" >}}
+[`set-labels`]: {{< relref "set-labels/v0.2/" >}}

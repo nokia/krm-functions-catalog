@@ -32,4 +32,4 @@ The labels provided in key-value pairs after `--` will be converted to a
 Check the 2 annotations `color: orange` and `fruit: apple` have been added to
 all resources.
 
-[`set-annotations`]: {{< relref "function-catalog/set-annotations/v0.1/" >}}
+[`set-annotations`]: {{< relref "set-annotations/v0.1/" >}}

@@ -45,4 +45,4 @@ $ kpt fn render set-annotations-simple
 
 Check the 2 annotations have been added.
 
-[`set-annotations`]: {{< relref "function-catalog/set-annotations/v0.1/" >}}
+[`set-annotations`]: {{< relref "set-annotations/v0.1/" >}}

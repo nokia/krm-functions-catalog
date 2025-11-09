@@ -48,4 +48,4 @@ $ kpt fn render set-image-digest
 
 Check the 2 images have been set to the specified digest.
 
-[`set-image`]: {{< relref "function-catalog/set-image/v0.1/" >}}
+[`set-image`]: {{< relref "set-image/v0.1/" >}}

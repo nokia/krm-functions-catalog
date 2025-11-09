@@ -81,4 +81,4 @@ $ kpt fn render starlark-poddisruptionbudget
 A new file should have been created, and it should contain a
 `PodDisruptionBudget` object.
 
-[`starlark`]: {{< relref "function-catalog/starlark/v0.5/" >}}
+[`starlark`]: {{< relref "starlark/v0.5/" >}}

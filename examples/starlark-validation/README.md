@@ -82,4 +82,4 @@ To pass validation, let's replace the key `private-key` in the `ConfigMap` with
 something else e.g. `public_key`.
 Rerun the command. It will succeed.
 
-[`starlark`]: {{< relref "function-catalog/starlark/v0.5/" >}}
+[`starlark`]: {{< relref "starlark/v0.5/" >}}
