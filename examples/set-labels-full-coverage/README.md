@@ -61,4 +61,4 @@ $ kpt fn render set-labels-full-coverage
 Check all resources, the following labels should be upserted to the `labels`, `matchingLabels` or `seletors(labelSelector)` fields: 
 `color: orange`, `fruit: apple` and `app: new`.
 
-[`set-labels`]: {{< relref "function-catalog/set-labels/v0.2/" >}}
+[`set-labels`]: {{< relref "set-labels/v0.2/" >}}

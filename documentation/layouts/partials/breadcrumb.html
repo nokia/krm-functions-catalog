@@ -1,11 +1,11 @@
 {{/* layouts/partials/breadcrumb.html */}}
-{{ if ne .RelPermalink "/function-catalog/" }}
+{{ if and (ne .RelPermalink "/function-catalog/") (not .Params.hide_breadcrumb) }}
 <nav aria-label="breadcrumb" class="td-breadcrumbs">
   <ol class="breadcrumb">
 
     {{/* Function Catalog root link */}}
     <li class="breadcrumb-item">
-      <a href="/function-catalog/">Function Catalog</a>
+      <a href="/">Function Catalog</a>
     </li>
 
     {{/* Show parent function if available */}}
@@ -13,7 +13,7 @@
       {{ $funcName := . }}
 
       {{/* Determine the versioned directory */}}
-      {{ $funcDir := printf "content/en/function-catalog/%s" $funcName }}
+      {{ $funcDir := printf "content/en/%s" $funcName }}
       {{ $versions := slice }}
       {{ if fileExists $funcDir }}
         {{ range readDir $funcDir }}
@@ -32,13 +32,13 @@
 
       {{ if $latest }}
         <li class="breadcrumb-item">
-          <a href="{{ printf "/function-catalog/%s/%s/" $funcName $latest | relURL }}">
+          <a href="{{ printf "/%s/%s/" $funcName $latest | relURL }}">
             {{ $funcName | humanize }}
           </a>
         </li>
       {{ else }}
         <li class="breadcrumb-item">
-          <a href="{{ printf "/function-catalog/%s/" $funcName | relURL }}">
+          <a href="{{ printf "/%s/" $funcName | relURL }}">
             {{ $funcName | humanize }}
           </a>
         </li>

@@ -88,5 +88,5 @@ Output looks like the following:
 
 <!--mdtogo-->
 
-[setter]: {{< relref "function-catalog/apply-setters/v0.2/#definitions" >}}
-[create-setters]: {{< relref "function-catalog/create-setters/v0.1/" >}}
+[setter]: {{< relref "apply-setters/v0.2/#definitions" >}}
+[create-setters]: {{< relref "create-setters/v0.1/" >}}

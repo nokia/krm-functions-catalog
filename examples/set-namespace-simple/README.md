@@ -46,4 +46,4 @@ $ kpt fn render set-namespace-simple
 
 Check all resources have `metadata.namespace` set to `example-ns`
 
-[`set-namespace`]: {{< relref "function-catalog/set-namespace/v0.4/" >}}
+[`set-namespace`]: {{< relref "set-namespace/v0.4/" >}}

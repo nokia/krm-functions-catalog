@@ -62,4 +62,4 @@ $ kpt fn render starlark-load-library
 
 Check the `.spec.replicas` field should have been updated to 4.
 
-[`starlark`]: {{< relref "function-catalog/starlark/v0.5/" >}}
+[`starlark`]: {{< relref "starlark/v0.5/" >}}

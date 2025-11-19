@@ -43,4 +43,4 @@ $ kpt fn eval --image ghcr.io/kptdev/krm-functions-catalog/starlark:latest -- so
 
 Check the `spec.replicas` field has been set to `5` in the `Deployment`.
 
-[`starlark`]: {{< relref "function-catalog/starlark/v0.5/" >}}
+[`starlark`]: {{< relref "starlark/v0.5/" >}}

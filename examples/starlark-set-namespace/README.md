@@ -64,4 +64,4 @@ $ kpt fn render starlark-set-namespace
 
 Check the `.metadata.namespace` field has been set to `prod` for every resource.
 
-[`starlark`]: {{< relref "function-catalog/starlark/v0.5/" >}}
+[`starlark`]: {{< relref "starlark/v0.5/" >}}

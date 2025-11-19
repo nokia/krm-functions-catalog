@@ -51,4 +51,4 @@ $ kpt fn render set-namespace-kpt-package-context
 
 Verify that all namespaces in `resources.yaml` are updated from `old` to `example`.
 
-[`set-namespace`]: {{< relref "function-catalog/set-namespace/v0.4/" >}}
+[`set-namespace`]: {{< relref "set-namespace/v0.4/" >}}

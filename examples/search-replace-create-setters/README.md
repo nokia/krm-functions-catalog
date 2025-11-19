@@ -64,10 +64,10 @@ data:
 
 Please refer to [apply-setters] documentation for information about applying desired setter values.
 
-[setter]: {{< relref "function-catalog/apply-setters/v0.2/" >}}
-[setters]: {{< relref "function-catalog/apply-setters/v0.2/" >}}
-[apply-setters]: {{< relref "function-catalog/apply-setters/v0.2/" >}}
-[create-setters]: {{< relref "function-catalog/create-setters/v0.1/" >}}
-[setter comments]: {{< relref "function-catalog/apply-setters/v0.2/#definitions" >}}
+[setter]: {{< relref "apply-setters/v0.2/" >}}
+[setters]: {{< relref "apply-setters/v0.2/" >}}
+[apply-setters]: {{< relref "apply-setters/v0.2/" >}}
+[create-setters]: {{< relref "create-setters/v0.1/" >}}
+[setter comments]: {{< relref "apply-setters/v0.2/#definitions" >}}
 
-[setter]: {{< relref "function-catalog/apply-setters/v0.2/#definitions" >}}
+[setter]: {{< relref "apply-setters/v0.2/#definitions" >}}

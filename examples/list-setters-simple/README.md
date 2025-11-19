@@ -38,4 +38,4 @@ $ kpt fn eval --image ghcr.io/kptdev/krm-functions-catalog/list-setters:latest
 
 Refer to the [apply-setters] function documentation for information about updating the field values parameterized by setters.
 
-[apply-setters]: {{< relref "function-catalog/apply-setters/v0.1/" >}}
+[apply-setters]: {{< relref "apply-setters/v0.1/" >}}
