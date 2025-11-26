@@ -43,10 +43,10 @@ jobs:
       GOPATH: /home/runner/work/krm-functions-catalog/functions/go
       GO111MODULE: on
     steps:
-      - name: Set up Go 1.24.3
+      - name: Set up Go 1.24.10
         uses: actions/setup-go@v5
         with:
-          go-version: '1.24.3'
+          go-version: '1.24.10'
         id: go
       - name: Check out code into GOPATH
         uses: actions/checkout@v1
@@ -64,10 +64,10 @@ jobs:
       GO111MODULE: on
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Go 1.24.3
+      - name: Set up Go 1.24.10
         uses: actions/setup-go@v5
         with:
-          go-version: '1.24.3'
+          go-version: '1.24.10'
       - name: Install kpt
         run: |
           go install github.com/kptdev/kpt@main
