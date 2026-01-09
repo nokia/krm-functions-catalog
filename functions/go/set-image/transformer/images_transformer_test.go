@@ -120,4 +120,21 @@ spec:
 		assert.Equal(t, "debian:bookworm", podKO.GetMap("spec").GetSlice("containers")[1].GetString("image"))
 		assert.Equal(t, 1, setImage.resultCount)
 	})
+
+	// This is just for demonstration purposes
+	t.Run("no-op update still logs mutation", func(t *testing.T) {
+		setImage := &SetImage{
+			Image: types.Image{Name: "alpine", NewTag: "3.22"},
+		}
+
+		podKO, err := fn.ParseKubeObject([]byte(podYAML))
+		require.NoError(t, err)
+
+		err = setImage.updateContainerImages(podKO)
+		require.NoError(t, err)
+
+		assert.Equal(t, "alpine:3.22", podKO.GetMap("spec").GetSlice("initContainers")[1].GetString("image"))
+		assert.Equal(t, "alpine:3.22", podKO.GetMap("spec").GetSlice("containers")[1].GetString("image"))
+		assert.Equal(t, 2, setImage.resultCount)
+	})
 }
