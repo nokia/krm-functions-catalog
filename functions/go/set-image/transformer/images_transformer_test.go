@@ -17,16 +17,41 @@ metadata:
   name: myPod
 spec:
   initContainers:
-    - name: initBusybox
-      image: busybox:1.36.1
-    - name: initAlpine
-      image: alpine:3.21
+  - name: initBusybox
+    image: busybox:1.36.1
+  - name: initAlpine
+    image: alpine:3.21
   containers:
-    - name: liveNginx
-      image: nginx:1.28.1
-    - name: liveAlpine
-      image: alpine:3.22
+  - name: liveNginx
+    image: nginx:1.28.1
+  - name: liveAlpine
+    image: alpine:3.22
 `
+	const deploymentYAML = `
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myDeployment
+  labels:
+    app: myApp
+spec:
+  selector:
+    matchLabels:
+      app: myApp
+  template:
+    spec:
+      initContainers:
+      - name: initBusybox
+        image: busybox:1.36.1
+      - name: initAlpine
+        image: alpine:3.21
+      containers:
+      - name: liveNginx
+        image: nginx:1.28.1
+      - name: liveAlpine
+        image: alpine:3.22
+`
+
 	t.Run("container images replaced by default", func(t *testing.T) {
 		setImage := &SetImage{
 			Image: types.Image{Name: "nginx", NewTag: "1.29.0"},
@@ -136,5 +161,29 @@ spec:
 		assert.Equal(t, "alpine:3.22", podKO.GetMap("spec").GetSlice("initContainers")[1].GetString("image"))
 		assert.Equal(t, "alpine:3.22", podKO.GetMap("spec").GetSlice("containers")[1].GetString("image"))
 		assert.Equal(t, 2, setImage.resultCount)
+	})
+
+	t.Run("deployments are substituted", func(t *testing.T) {
+		setImage := &SetImage{
+			Image: types.Image{Name: "alpine", NewTag: "3.24"},
+		}
+
+		deploymentKO, err := fn.ParseKubeObject([]byte(deploymentYAML))
+		require.NoError(t, err)
+
+		err = setImage.updateContainerImages(deploymentKO)
+		require.NoError(t, err)
+
+		assert.Equal(t, "alpine:3.24", deploymentKO.GetMap("spec").
+			GetMap("template").
+			GetMap("spec").
+			GetSlice("initContainers")[1].
+			GetString("image"))
+
+		assert.Equal(t, "alpine:3.24", deploymentKO.GetMap("spec").
+			GetMap("template").
+			GetMap("spec").
+			GetSlice("containers")[1].
+			GetString("image"))
 	})
 }
