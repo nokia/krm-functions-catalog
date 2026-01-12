@@ -4,9 +4,12 @@ import (
 	"fmt"
 
 	"github.com/kptdev/krm-functions-catalog/functions/go/set-image/custom"
-	"github.com/kptdev/krm-functions-catalog/functions/go/set-image/third_party/sigs.k8s.io/kustomize/api/image"
-	"github.com/kptdev/krm-functions-catalog/functions/go/set-image/third_party/sigs.k8s.io/kustomize/api/types"
 	"github.com/kptdev/krm-functions-sdk/go/fn"
+	"sigs.k8s.io/kustomize/api/filters/imagetag"
+	"sigs.k8s.io/kustomize/api/types"
+	"sigs.k8s.io/kustomize/kyaml/filtersutil"
+	"sigs.k8s.io/kustomize/kyaml/resid"
+	"sigs.k8s.io/kustomize/kyaml/yaml"
 )
 
 // Image contains an image name, a new name, a new tag or digest, which will replace the original name and tag.
@@ -27,10 +30,58 @@ type Image struct {
 
 var _ fn.Runner = &SetImage{}
 
+// TODO: is there a nicer way to do this?
+var containersFsSlice = func() types.FsSlice {
+	out := types.FsSlice{
+		{
+			Gvk: resid.Gvk{
+				Group:   "",
+				Kind:    "Pod",
+				Version: "v1",
+			},
+			Path: "spec/containers[]/image",
+		},
+		{
+			Gvk: resid.Gvk{
+				Group:   "",
+				Kind:    "Pod",
+				Version: "v1",
+			},
+			Path: "spec/initContainers[]/image",
+		},
+	}
+
+	// TODO: is PodTemplate a kind?
+	templateKinds := []string{"Deployment", "StatefulSet", "ReplicaSet", "DaemonSet"}
+
+	for _, kind := range templateKinds {
+		out, _ = out.MergeAll(types.FsSlice{
+			{
+				Gvk: resid.Gvk{
+					Group:   "apps",
+					Version: "v1",
+					Kind:    kind,
+				},
+				Path: "spec/template/spec/containers[]/image",
+			},
+			{
+				Gvk: resid.Gvk{
+					Group:   "apps",
+					Version: "v1",
+					Kind:    kind,
+				},
+				Path: "spec/template/spec/initContainers[]/image",
+			},
+		})
+	}
+
+	return out
+}()
+
 // SetImage supports the set-image workflow, it uses Config to parse functionConfig, Transform to change the image
 type SetImage struct {
 	// Image is the desired image
-	Image Image `json:"image,omitempty" yaml:"image,omitempty"`
+	Image types.Image `json:"image,omitempty" yaml:"image,omitempty"`
 	// ConfigMap keeps the data field that holds image information
 	DataFromDefaultConfig map[string]string `json:"data,omitempty" yaml:"data,omitempty"`
 	// ONLY for kustomize, AdditionalImageFields is the user supplied fieldspec
@@ -51,15 +102,8 @@ func (t *SetImage) Run(_ *fn.Context, fnConfig *fn.KubeObject, items fn.KubeObje
 	}
 
 	for _, o := range items {
-		switch o.GetKind() {
-		case "Pod":
-			if err = t.setPodContainers(o); err != nil {
-				res.Errorf(err.Error(), o)
-			}
-		case "Deployment", "StatefulSet", "ReplicaSet", "DaemonSet", "PodTemplate":
-			if err = t.setPodSpecContainers(o); err != nil {
-				res.Errorf(err.Error(), o)
-			}
+		if err = t.updateContainerImages(o); err != nil {
+			res.Errorf(err.Error(), o)
 		}
 	}
 
@@ -104,79 +148,28 @@ func (t *SetImage) validateInput() error {
 }
 
 // updateContainerImages updates the images inside containers, return potential error
-func (t *SetImage) updateContainerImages(pod *fn.SubObject) error {
-	var containers fn.SliceSubObjects
-	containers = append(containers, pod.GetSlice("iniContainers")...)
-	containers = append(containers, pod.GetSlice("containers")...)
-
-	for _, o := range containers {
-		oldValue, _, err := o.NestedString("image")
-		if err != nil {
-			return err
-		}
-		if !image.IsImageMatched(oldValue, t.Image.Name) {
-			continue
-		}
-		newName := getNewImageName(oldValue, t.Image)
-		if oldValue == newName {
-			continue
-		}
-
-		if err := o.SetNestedString(newName, "image"); err != nil {
-			return err
-		}
-		t.resultCount += 1
+func (t *SetImage) updateContainerImages(obj *fn.KubeObject) error {
+	filter := imagetag.Filter{
+		ImageTag: t.Image,
+		FsSlice:  containersFsSlice,
 	}
-	return nil
-}
+	filter.WithMutationTracker(custom.LogResultCallback(&t.resultCount))
 
-func (t *SetImage) setPodSpecContainers(o *fn.KubeObject) error {
-	spec := o.GetMap("spec")
-	if spec == nil {
-		return nil
-	}
-	template := spec.GetMap("template")
-	if template == nil {
-		return nil
-	}
-	podSpec := template.GetMap("spec")
-	err := t.updateContainerImages(podSpec)
+	objRN, err := yaml.Parse(obj.String())
 	if err != nil {
 		return err
 	}
-	return nil
-}
 
-func (t *SetImage) setPodContainers(o *fn.KubeObject) error {
-	spec := o.GetMap("spec")
-	if spec == nil {
-		return nil
+	if err := filtersutil.ApplyToJSON(filter, objRN); err != nil {
+		return err
 	}
-	err := t.updateContainerImages(spec)
+
+	newObj, err := fn.ParseKubeObject([]byte(objRN.MustString()))
 	if err != nil {
 		return err
 	}
+
+	*obj = *newObj
+
 	return nil
-}
-
-// getNewImageName return the new name for image field
-func getNewImageName(oldValue string, newImage Image) string {
-	name, tag, digest := image.Split(oldValue)
-	if newImage.NewName != "" {
-		name = newImage.NewName
-	}
-	if newImage.NewTag != "" {
-		tag = ":" + newImage.NewTag
-	}
-	if newImage.Digest != "" {
-		tag = "@" + newImage.Digest
-	}
-	var newName string
-	if tag == "" {
-		newName = name + digest
-	} else {
-		newName = name + tag
-	}
-
-	return newName
 }

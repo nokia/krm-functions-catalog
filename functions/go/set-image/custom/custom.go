@@ -22,7 +22,7 @@ func SetAdditionalFieldSpec(img *fn.SubObject, objects fn.KubeObjects, addImgFie
 			ImageTag: image,
 			FsSlice:  additionalImageFields,
 		}
-		filter.WithMutationTracker(logResultCallback(count))
+		filter.WithMutationTracker(LogResultCallback(count))
 		err = filtersutil.ApplyToJSON(filter, objRN)
 		if err != nil {
 			res.Errorf(err.Error(), obj)
@@ -35,7 +35,7 @@ func SetAdditionalFieldSpec(img *fn.SubObject, objects fn.KubeObjects, addImgFie
 	}
 }
 
-func logResultCallback(count *int) func(key, value, tag string, node *yaml.RNode) {
+func LogResultCallback(count *int) func(key, value, tag string, node *yaml.RNode) {
 	return func(key, value, tag string, node *yaml.RNode) {
 		*count += 1
 	}
