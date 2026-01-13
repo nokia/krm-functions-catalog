@@ -74,8 +74,11 @@ func (sf *Filter) setup() error {
 			if err != nil {
 				return err
 			}
-			//nolint:errcheck
-			defer resp.Body.Close()
+
+			defer func() {
+				_ = resp.Body.Close()
+			}()
+
 			b, err := io.ReadAll(resp.Body)
 			if err != nil {
 				return err

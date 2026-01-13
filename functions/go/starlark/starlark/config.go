@@ -36,7 +36,7 @@ func (sr *StarlarkRun) Config(fnCfg *fn.KubeObject) error {
 	switch {
 	case fnCfg.IsEmpty():
 		return fmt.Errorf("FunctionConfig is missing. Expect `ConfigMap` or `StarlarkRun`")
-	case fnCfg.IsGroupKind(schema.GroupKind{Group: "", Kind: configMapKind}):
+	case fnCfg.IsGVK("", configMapApiVersion, configMapKind):
 		cm := &corev1.ConfigMap{}
 		if err := fnCfg.As(cm); err != nil {
 			return err
@@ -51,7 +51,7 @@ func (sr *StarlarkRun) Config(fnCfg *fn.KubeObject) error {
 			}
 			sr.Params[k] = v
 		}
-	case fnCfg.IsGroupKind(schema.GroupKind{Group: starlarkRunGroup, Kind: starlarkRunKind}):
+	case fnCfg.IsGVK(starlarkRunGroup, starlarkRunVersion, starlarkRunKind):
 		if err := fnCfg.As(sr); err != nil {
 			return err
 		}
