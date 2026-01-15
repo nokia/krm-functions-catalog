@@ -20,8 +20,7 @@ func (p *SleepProcessor) Process(rl *framework.ResourceList) error {
 	if fnConfig != nil && fnConfig.GetKind() == "ConfigMap" {
 		data := fnConfig.GetDataMap()
 		if data == nil {
-			err := fmt.Errorf("couldn't parse FunctionConfig's data field")
-			return err
+			return fmt.Errorf("couldn't parse FunctionConfig's data field")
 		}
 
 		if raw, ok := data["duration"]; ok {
@@ -38,8 +37,13 @@ func (p *SleepProcessor) Process(rl *framework.ResourceList) error {
 			} else {
 				return fmt.Errorf("couldn't parse `sleepSeconds` field of functionConfig: %w", err)
 			}
+		} else {
+			return fmt.Errorf("FunctionConfig's data field contains neither `duration` nor `sleepSeconds`")
 		}
 	}
+
+	// TODO: can we log to STDOUT (in real time) without it being returned?
+	// printing to STDERR because STDOUT would be returned as function output
 	fmt.Fprintf(os.Stderr, "Sleeping for %s...\n", duration)
 	time.Sleep(duration)
 	fmt.Fprintln(os.Stderr, "Sleep completed.")
