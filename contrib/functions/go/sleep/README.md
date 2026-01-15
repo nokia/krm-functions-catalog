@@ -18,18 +18,24 @@ It is helpful for use cases such as testing the timing and behavior of orchestra
 
 The `sleep` function is a utility that pauses execution for a user-defined number of seconds.
 
-This can be used in both **imperative** (`kpt fn run`) and **declarative** (`functionConfig`) modes.
+This can be used in both **imperative** (`kpt fn eval`) and **declarative** (`functionConfig`) modes.
 
 ### FunctionConfig
 
 The function expects a `ConfigMap` with a `data.duration` field to define how long to sleep.
 
 - **duration**
-    - *Type:* time.Time
-    - *Example:* `"5s"`
-    - *Optional:* Yes
-    - *Default:* `"10s"`
-    - *Description:* Number of seconds the function will pause execution.
+  - *Type:* string (`time.Duration` format)
+  - *Example:* `"5s"`
+  - *Optional:* Yes
+  - *Default:* `"10s"`
+  - *Description:* Amount of time the function will pause execution.
+- ~~**sleepSeconds**~~ (DEPRECATED)
+  - *Type:* integer
+  - *Example:* `5`
+  - *Optional:* Yes
+  - *Default:* `10`
+  - *Description:* Number of seconds the function will pause execution.
 
 Example FunctionConfig:
 
@@ -51,7 +57,11 @@ data:
 ### Run imperatively
 
 ```sh
-kpt fn run . --image gcr.io/kpt-fn/sleep --fn-config path/to/config.yaml
+kpt fn eval --image ghcr.io/kptdev/krm-functions-catalog/krm-fn-contrib/sleep --fn-config path/to/config.yaml
+```
+or
+```sh
+kpt fn eval --image ghcr.io/kptdev/krm-functions-catalog/krm-fn-contrib/sleep -- duration=5s
 ```
 
 ### Example Output
@@ -59,7 +69,7 @@ kpt fn run . --image gcr.io/kpt-fn/sleep --fn-config path/to/config.yaml
 The function will log output like:
 
 ```
-Sleeping for 5 seconds...
+Sleeping for 5s...
 Sleep completed.
 ```
 
