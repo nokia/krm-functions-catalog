@@ -1,0 +1,12 @@
+image: ghcr.io/krm-functions-catalog/sleep
+description: Simulates a delay using `duration` defined in FunctionConfig. Useful for testing pipelines and latency behavior.
+hidden: true
+tags:
+  - mutator
+  - test
+  - testing
+  - timing
+sourceURL: https://github.com/kpt-dev/krm-functions-catalog/functions/go/sleep
+emails:
+  - your-team@example.com
+license: Apache-2.0
