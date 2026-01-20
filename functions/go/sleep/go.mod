@@ -1,4 +1,4 @@
-module github.com/kptdev/krm-functions-catalog/functions/go/test/sleep
+module github.com/kptdev/krm-functions-catalog/functions/go/sleep
 
 go 1.24.10
 

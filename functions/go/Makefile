@@ -37,7 +37,8 @@ FUNCTIONS := \
 	set-labels \
 	set-namespace \
 	starlark \
-	upsert-resource
+	upsert-resource \
+	sleep
 
 # Targets for running all function tests
 FUNCTION_TESTS := $(patsubst %,%-TEST,$(FUNCTIONS))

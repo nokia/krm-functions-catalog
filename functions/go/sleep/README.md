@@ -4,19 +4,20 @@
 
 <!--mdtogo:Short-->
 
-Simulates a sleep delay based on the value provided in a ConfigMap field `duration`.
+Simulates a sleep delay based on the provided `duration`.
 
 <!--mdtogo-->
 
 This function introduces a deliberate delay in a kpt pipeline for debugging or simulation purposes.
 
-It is helpful for use cases such as testing the timing and behavior of orchestrated pipelines where simulating latency is useful. For instance, it can help in evaluating the responsiveness and concurrency of pipeline steps.
+It is helpful for use cases such as testing the timing and behavior of orchestrated pipelines where simulating latency is useful.
+For instance, it can help in evaluating the responsiveness and concurrency of pipeline steps.
 
 <!--mdtogo:Long-->
 
 ## Usage
 
-The `sleep` function is a utility that pauses execution for a user-defined number of seconds.
+The `sleep` function is a utility that pauses execution for a user-defined amount of time.
 
 This can be used in both **imperative** (`kpt fn eval`) and **declarative** (`functionConfig`) modes.
 
@@ -37,17 +38,6 @@ The function expects a `ConfigMap` with a `data.duration` field to define how lo
   - *Default:* `10`
   - *Description:* Number of seconds the function will pause execution.
 
-Example FunctionConfig:
-
-```yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: sleep-config
-data:
-  duration: "5s"
-```
-
 <!--mdtogo-->
 
 ## Examples
@@ -57,11 +47,22 @@ data:
 ### Run imperatively
 
 ```sh
-kpt fn eval --image ghcr.io/kptdev/krm-functions-catalog/krm-fn-contrib/sleep --fn-config path/to/config.yaml
+kpt fn eval --image ghcr.io/kptdev/krm-functions-catalog/sleep --fn-config path/to/config.yaml
 ```
 or
 ```sh
-kpt fn eval --image ghcr.io/kptdev/krm-functions-catalog/krm-fn-contrib/sleep -- duration=5s
+kpt fn eval --image ghcr.io/kptdev/krm-functions-catalog/sleep -- duration=5s
+```
+
+### Example FunctionConfig
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sleep-config
+data:
+  duration: "5s"
 ```
 
 ### Example Output
