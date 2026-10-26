@@ -5,7 +5,7 @@ go 1.26.8
 require (
 	github.com/kptdev/kpt/api v1.1.0
 	github.com/kptdev/krm-functions-catalog/functions/go/list-setters v0.1.4 // TODO: update so the indirect kpt dependency can be removed
-	github.com/olekukonko/tablewriter v1.1.5
+	github.com/olekukonko/tablewriter v1.1.4 // TODO: v1.1.5 centers text horizontally instead of left-align, is that okay or not?
 	github.com/stretchr/testify v1.12.1
 	sigs.k8s.io/kustomize/kyaml v0.21.2
 )
