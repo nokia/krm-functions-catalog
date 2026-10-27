@@ -3,7 +3,7 @@ module github.com/kptdev/krm-functions-catalog/functions/go/apply-setters
 go 1.26.8
 
 require (
-	github.com/kptdev/kpt/api v0.0.2
+	github.com/kptdev/kpt/api v1.1.0
 	github.com/stretchr/testify v1.12.1
 	sigs.k8s.io/kustomize/kyaml v0.21.2
 )

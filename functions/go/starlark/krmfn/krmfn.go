@@ -15,7 +15,7 @@
 package krmfn
 
 import (
-	"github.com/kptdev/krm-functions-sdk/go/fn"
+	"github.com/kptdev/kpt/api/kubeobject"
 	"go.starlark.net/starlark"
 	"go.starlark.net/starlarkstruct"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -43,7 +43,7 @@ func matchGVK(_ *starlark.Thread, _ *starlark.Builtin, args starlark.Tuple, kwar
 	if err != nil {
 		return nil, err
 	}
-	obj, err := fn.ParseKubeObject([]byte(resourceList.String()))
+	obj, err := kubeobject.ParseKubeObject([]byte(resourceList.String()))
 	if err != nil {
 		return nil, err
 	}
@@ -56,7 +56,7 @@ func matchName(_ *starlark.Thread, _ *starlark.Builtin, args starlark.Tuple, kwa
 	if err := starlark.UnpackPositionalArgs("match_name", args, kwargs, 2, &resourceList, &name); err != nil {
 		return nil, err
 	}
-	obj, err := fn.ParseKubeObject([]byte(resourceList.String()))
+	obj, err := kubeobject.ParseKubeObject([]byte(resourceList.String()))
 	if err != nil {
 		return nil, err
 	}
@@ -69,7 +69,7 @@ func matchNamespace(_ *starlark.Thread, _ *starlark.Builtin, args starlark.Tuple
 	if err := starlark.UnpackPositionalArgs("match_namespace", args, kwargs, 2, &resourceList, &namespace); err != nil {
 		return nil, err
 	}
-	obj, err := fn.ParseKubeObject([]byte(resourceList.String()))
+	obj, err := kubeobject.ParseKubeObject([]byte(resourceList.String()))
 	if err != nil {
 		return nil, err
 	}

@@ -3,7 +3,8 @@ module github.com/kptdev/krm-functions-catalog/functions/go/starlark
 go 1.26.8
 
 require (
-	github.com/kptdev/krm-functions-sdk/go/fn v1.0.3
+	github.com/kptdev/kpt/api v1.1.0
+	github.com/kptdev/krm-functions-sdk/go/fn v1.2.0
 	github.com/qri-io/starlib v0.5.0
 	github.com/stretchr/testify v1.12.1
 	go.starlark.net v0.0.0-20261021141710-4f4267fb140d
@@ -16,6 +17,7 @@ require (
 	github.com/360EntSecGroup-Skylar/excelize v1.4.1 // indirect
 	github.com/PuerkitoBio/goquery v1.12.0 // indirect
 	github.com/andybalholm/cascadia v1.3.3 // indirect
+	github.com/distribution/reference v0.6.0 // indirect
 	github.com/dustmop/soup v1.1.2-0.20190516214245-38228baa104e // indirect
 	github.com/fxamacker/cbor/v2 v2.9.2 // indirect
 	github.com/go-errors/errors v1.5.1 // indirect
@@ -40,6 +42,7 @@ require (
 	github.com/modern-go/reflect2 v1.0.3-0.20250322232337-35a7c28c31ee // indirect
 	github.com/mohae/deepcopy v0.0.0-20170929034955-c48cc78d4826 // indirect
 	github.com/monochromegane/go-gitignore v0.0.0-20200626010858-205db1a8cc00 // indirect
+	github.com/opencontainers/go-digest v1.0.0 // indirect
 	github.com/paulmach/orb v0.13.0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
