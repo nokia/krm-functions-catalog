@@ -21,7 +21,6 @@ import (
 	schema "github.com/kptdev/kpt/api/schema/v1"
 	"github.com/kptdev/krm-functions-catalog/functions/go/starlark/third_party/sigs.k8s.io/kustomize/kyaml/fn/runtime/starlark"
 	corev1 "k8s.io/api/core/v1"
-	k8sschema "k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/kustomize/kyaml/yaml"
 )
 
@@ -51,7 +50,9 @@ func (sr *StarlarkRun) Config(fnCfg *kubeobject.KubeObject) error {
 	switch {
 	case fnCfg.IsEmpty():
 		return fmt.Errorf("FunctionConfig is missing. Expect `ConfigMap` or `StarlarkRun`")
-	case fnCfg.IsGroupVersionKind(schema.GroupVersionKind{"", configMapApiVersion, configMapKind}):
+	case fnCfg.IsGroupVersionKind(schema.GroupVersionKind{
+		Group: "", Version: configMapApiVersion, Kind: configMapKind,
+	}):
 		cm := &corev1.ConfigMap{}
 		if err := fnCfg.As(cm); err != nil {
 			return err
@@ -66,15 +67,17 @@ func (sr *StarlarkRun) Config(fnCfg *kubeobject.KubeObject) error {
 			}
 			sr.Params[k] = v
 		}
-	case fnCfg.IsGroupVersionKind(schema.GroupVersionKind{starlarkRunGroup, starlarkRunVersion, starlarkRunKind}):
+	case fnCfg.IsGroupVersionKind(schema.GroupVersionKind{
+		Group: starlarkRunGroup, Version: starlarkRunVersion, Kind: starlarkRunKind,
+	}):
 		if err := fnCfg.As(sr); err != nil {
 			return err
 		}
 	default:
 		return fmt.Errorf("`functionConfig` must be either %v or %v, but we got: %v",
-			k8sschema.FromAPIVersionAndKind(configMapApiVersion, configMapKind).String(),
-			k8sschema.FromAPIVersionAndKind(starlarkRunAPIVersion, starlarkRunKind).String(),
-			k8sschema.FromAPIVersionAndKind(fnCfg.GetAPIVersion(), fnCfg.GetKind()).String())
+			schema.FromAPIVersionAndKind(configMapApiVersion, configMapKind).String(),
+			schema.FromAPIVersionAndKind(starlarkRunAPIVersion, starlarkRunKind).String(),
+			schema.FromAPIVersionAndKind(fnCfg.GetAPIVersion(), fnCfg.GetKind()).String())
 	}
 
 	// Defaulting

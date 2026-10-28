@@ -9,7 +9,6 @@ require (
 	github.com/stretchr/testify v1.12.1
 	go.starlark.net v0.0.0-20261021141710-4f4267fb140d
 	k8s.io/api v0.36.5
-	k8s.io/apimachinery v0.36.5
 	sigs.k8s.io/kustomize/kyaml v0.21.2
 )
 
@@ -56,6 +55,7 @@ require (
 	google.golang.org/protobuf v1.36.12 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
+	k8s.io/apimachinery v0.36.5 // indirect
 	k8s.io/klog/v2 v2.140.0 // indirect
 	k8s.io/kube-openapi v0.0.0-20260721132016-d427ff9ee9ad // indirect
 	k8s.io/utils v0.0.0-20260626114624-be93311217bd // indirect

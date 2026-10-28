@@ -16,10 +16,9 @@ package krmfn
 
 import (
 	"github.com/kptdev/kpt/api/kubeobject"
-	apischema "github.com/kptdev/kpt/api/schema/v1"
+	schema "github.com/kptdev/kpt/api/schema/v1"
 	"go.starlark.net/starlark"
 	"go.starlark.net/starlarkstruct"
-	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
 const ModuleName = "krmfn.star"
@@ -48,7 +47,7 @@ func matchGVK(_ *starlark.Thread, _ *starlark.Builtin, args starlark.Tuple, kwar
 	if err != nil {
 		return nil, err
 	}
-	return starlark.Bool(obj.IsGroupVersionKind(apischema.GroupVersionKind{gv.Group, gv.Version, kind})), nil
+	return starlark.Bool(obj.IsGroupVersionKind(gv.WithKind(kind))), nil
 }
 
 func matchName(_ *starlark.Thread, _ *starlark.Builtin, args starlark.Tuple, kwargs []starlark.Tuple) (starlark.Value, error) {

@@ -122,7 +122,7 @@ func (p *SetLabels) setLabelsInMeta(o *kubeobject.SubObject) error {
 
 // containJobSpec check if the object is CronJob, this kind might have JobTemplateSpec, which contains label fieldPath
 func containJobSpec(o *kubeobject.KubeObject) bool {
-	return o.IsGroupKind(schema.GroupKind{"batch", "CronJob"})
+	return o.IsGroupKind(schema.GroupKind{Group: "batch", Kind: "CronJob"})
 }
 
 func (p *SetLabels) setLabelsInJob(job *kubeobject.SubObject) error {
@@ -142,7 +142,7 @@ func (p *SetLabels) setLabelsInJob(job *kubeobject.SubObject) error {
 
 // containNetworkPolicy checking if this kind is NetworkPolicy, it would contain struct NetworkPolicySpec
 func containNetworkPolicy(o *kubeobject.KubeObject) bool {
-	return o.IsGroupKind(schema.GroupKind{"networking.k8s.io", "NetworkPolicy"})
+	return o.IsGroupKind(schema.GroupKind{Group: "networking.k8s.io", Kind: "NetworkPolicy"})
 }
 
 // setNetworkPolicyRule set ingress and egress rules for kind NetworkPolicy
@@ -172,8 +172,8 @@ func (p *SetLabels) setNetworkPolicyRule(o *kubeobject.KubeObject) error {
 
 // hasSpecSelector check if the resource contains struct SpecSelector, kind Service and ReplicationController has it
 func hasSpecSelector(o *kubeobject.KubeObject) bool {
-	return o.IsGroupVersionKind(schema.GroupVersionKind{"", "v1", "Service"}) ||
-		o.IsGroupVersionKind(schema.GroupVersionKind{"", "v1", "ReplicationController"})
+	return o.IsGroupVersionKind(schema.GroupVersionKind{Group: "", Version: "v1", Kind: "Service"}) ||
+		o.IsGroupVersionKind(schema.GroupVersionKind{Group: "", Version: "v1", Kind: "ReplicationController"})
 }
 
 // setLabelsInSelector set labels for all selectors, including spec selector map, spec selector LabelSelector, LabelSelector in JobTemplate, and podSelector in NetworkPolicy, and
@@ -201,11 +201,14 @@ func (p *SetLabels) setLabelsInSelector(o *kubeobject.KubeObject) error {
 
 // hasLabelSelector check if the resource contains struct LabelSelector and whether labels should be created if not exist.
 func hasLabelSelector(o *kubeobject.KubeObject) (bool, bool) {
-	if o.IsGroupKind(schema.GroupKind{"", "Deployment"}) || o.IsGroupKind(schema.GroupKind{"", "ReplicaSet"}) ||
-		o.IsGroupKind(schema.GroupKind{"", "DaemonSet"}) || o.IsGroupKind(schema.GroupKind{"apps", "StatefulSet"}) {
+	if o.IsGroupKind(schema.GroupKind{Group: "", Kind: "Deployment"}) ||
+		o.IsGroupKind(schema.GroupKind{Group: "", Kind: "ReplicaSet"}) ||
+		o.IsGroupKind(schema.GroupKind{Group: "", Kind: "DaemonSet"}) ||
+		o.IsGroupKind(schema.GroupKind{Group: "apps", Kind: "StatefulSet"}) {
 		return true, true
 	}
-	if o.IsGroupKind(schema.GroupKind{"batch", "Job"}) || o.IsGroupKind(schema.GroupKind{"policy", "PodDisruptionBudget"}) {
+	if o.IsGroupKind(schema.GroupKind{Group: "batch", Kind: "Job"}) ||
+		o.IsGroupKind(schema.GroupKind{Group: "policy", Kind: "PodDisruptionBudget"}) {
 		return true, false
 	}
 	return false, false
@@ -214,17 +217,17 @@ func hasLabelSelector(o *kubeobject.KubeObject) (bool, bool) {
 // hasPod check if the resource contains struct PodTemplateSpec, ReplicationController, Deployment, ReplicaSet, DaemonSet, StatefulSet, Job kind has it
 func containPodSpec(o *kubeobject.KubeObject) bool {
 	switch {
-	case o.IsGroupVersionKind(schema.GroupVersionKind{"", "v1", "ReplicationController"}):
+	case o.IsGroupVersionKind(schema.GroupVersionKind{Group: "", Version: "v1", Kind: "ReplicationController"}):
 		return true
-	case o.IsGroupKind(schema.GroupKind{"", "Deployment"}):
+	case o.IsGroupKind(schema.GroupKind{Group: "", Kind: "Deployment"}):
 		return true
-	case o.IsGroupKind(schema.GroupKind{"", "ReplicaSet"}):
+	case o.IsGroupKind(schema.GroupKind{Group: "", Kind: "ReplicaSet"}):
 		return true
-	case o.IsGroupKind(schema.GroupKind{"", "DaemonSet"}):
+	case o.IsGroupKind(schema.GroupKind{Group: "", Kind: "DaemonSet"}):
 		return true
-	case o.IsGroupKind(schema.GroupKind{"apps", "StatefulSet"}):
+	case o.IsGroupKind(schema.GroupKind{Group: "apps", Kind: "StatefulSet"}):
 		return true
-	case o.IsGroupKind(schema.GroupKind{"batch", "Job"}):
+	case o.IsGroupKind(schema.GroupKind{Group: "batch", Kind: "Job"}):
 		return true
 	default:
 		return false
@@ -248,7 +251,7 @@ func (p *SetLabels) setLabelsInPod(pod *kubeobject.SubObject) error {
 
 // containVolume check if the resource contains struct VolumeClaimTemplates, kind StatefulSet has it
 func containVolume(o *kubeobject.KubeObject) bool {
-	return o.IsGroupKind(schema.GroupKind{"apps", "StatefulSet"})
+	return o.IsGroupKind(schema.GroupKind{Group: "apps", Kind: "StatefulSet"})
 }
 
 // setLabelsInVolume set VolumeClaimTemplates label path
