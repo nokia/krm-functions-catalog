@@ -20,6 +20,7 @@ import (
 
 	fnresult "github.com/kptdev/kpt/api/fnresult/v1"
 	"github.com/kptdev/kpt/api/kubeobject"
+	schema "github.com/kptdev/kpt/api/schema/v1"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/util/sets"
 	"sigs.k8s.io/kustomize/kyaml/fn/framework"
@@ -78,7 +79,7 @@ func (p *SetNamespace) Config(o *kubeobject.KubeObject) error {
 	case o.IsEmpty():
 		return fmt.Errorf("FunctionConfig is missing. Expect `ConfigMap.v1` or `%s.%s.%s`",
 			fnConfigKind, fnConfigVersion, fnConfigGroup)
-	case o.IsGVK("", "v1", "ConfigMap"):
+	case o.IsGroupVersionKind(schema.GroupVersionKind{"", "v1", "ConfigMap"}):
 		var cm corev1.ConfigMap
 		if o.As(&cm) != nil {
 			return fmt.Errorf("failed to parse FunctionConfig as ConfigMap")
@@ -96,7 +97,7 @@ func (p *SetNamespace) Config(o *kubeobject.KubeObject) error {
 			return fmt.Errorf("`data.name` should not be empty")
 		}
 		return fmt.Errorf("`data.namespace` should not be empty")
-	case o.IsGVK(fnConfigGroup, fnConfigVersion, fnConfigKind):
+	case o.IsGroupVersionKind(schema.GroupVersionKind{fnConfigGroup, fnConfigVersion, fnConfigKind}):
 		if o.As(&p) != nil {
 			return fmt.Errorf("failed to parse FunctionConfig as %s.%s.%s", fnConfigGroup, fnConfigVersion, fnConfigKind)
 		}
@@ -225,7 +226,7 @@ func VisitSpecialClusterResource(objects kubeobject.KubeObjects, visitor func(or
 	clusterScoped := objects.Where(func(o *kubeobject.KubeObject) bool { return o.IsClusterScoped() })
 	for _, o := range clusterScoped {
 		switch {
-		case o.IsGVK("", "v1", "Namespace"):
+		case o.IsGroupVersionKind(schema.GroupVersionKind{"", "v1", "Namespace"}):
 			nsPtr := new(o.GetName())
 			origin, err := o.GetOriginID()
 			if err != nil {
@@ -233,7 +234,7 @@ func VisitSpecialClusterResource(objects kubeobject.KubeObjects, visitor func(or
 			}
 			visitor(origin.Name, nsPtr, o.ShortString())
 			_ = o.SetName(*nsPtr)
-		case o.IsGVK("apiextensions.k8s.io", "v1", "CustomResourceDefinition"):
+		case o.IsGroupVersionKind(schema.GroupVersionKind{"apiextensions.k8s.io", "v1", "CustomResourceDefinition"}):
 			strategy, found, _ := o.NestedString("spec", "conversion", "strategy")
 			if !found || strategy != "Webhook" {
 				break
@@ -244,7 +245,7 @@ func VisitSpecialClusterResource(objects kubeobject.KubeObjects, visitor func(or
 			nsPtr := new(NestedStringOrDie(o, "spec", "conversion", "webhook", "clientConfig", "service", "namespace"))
 			visitor("", nsPtr)
 			SetNestedStringOrDie(&o.SubObject, *nsPtr, "spec", "conversion", "webhook", "clientConfig", "service", "namespace")
-		case o.IsGVK("apiregistration.k8s.io", "v1", "APIService"):
+		case o.IsGroupVersionKind(schema.GroupVersionKind{"apiregistration.k8s.io", "v1", "APIService"}):
 			if _, found, _ := o.NestedString("spec", "service", "name"); !found {
 				break
 			}
