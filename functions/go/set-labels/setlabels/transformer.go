@@ -201,9 +201,9 @@ func (p *SetLabels) setLabelsInSelector(o *kubeobject.KubeObject) error {
 
 // hasLabelSelector check if the resource contains struct LabelSelector and whether labels should be created if not exist.
 func hasLabelSelector(o *kubeobject.KubeObject) (bool, bool) {
-	if o.IsGroupKind(schema.GroupKind{Group: "", Kind: "Deployment"}) ||
-		o.IsGroupKind(schema.GroupKind{Group: "", Kind: "ReplicaSet"}) ||
-		o.IsGroupKind(schema.GroupKind{Group: "", Kind: "DaemonSet"}) ||
+	if o.IsGroupKind(schema.GroupKind{Group: "apps", Kind: "Deployment"}) ||
+		o.IsGroupKind(schema.GroupKind{Group: "apps", Kind: "ReplicaSet"}) ||
+		o.IsGroupKind(schema.GroupKind{Group: "apps", Kind: "DaemonSet"}) ||
 		o.IsGroupKind(schema.GroupKind{Group: "apps", Kind: "StatefulSet"}) {
 		return true, true
 	}
@@ -219,11 +219,11 @@ func containPodSpec(o *kubeobject.KubeObject) bool {
 	switch {
 	case o.IsGroupVersionKind(schema.GroupVersionKind{Group: "", Version: "v1", Kind: "ReplicationController"}):
 		return true
-	case o.IsGroupKind(schema.GroupKind{Group: "", Kind: "Deployment"}):
+	case o.IsGroupKind(schema.GroupKind{Group: "apps", Kind: "Deployment"}):
 		return true
-	case o.IsGroupKind(schema.GroupKind{Group: "", Kind: "ReplicaSet"}):
+	case o.IsGroupKind(schema.GroupKind{Group: "apps", Kind: "ReplicaSet"}):
 		return true
-	case o.IsGroupKind(schema.GroupKind{Group: "", Kind: "DaemonSet"}):
+	case o.IsGroupKind(schema.GroupKind{Group: "apps", Kind: "DaemonSet"}):
 		return true
 	case o.IsGroupKind(schema.GroupKind{Group: "apps", Kind: "StatefulSet"}):
 		return true
